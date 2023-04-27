@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "serve": "webpack-dev-server"
+    "serve": "webpack-dev-server",
+    "build": "webpack --progress --colors --watch --display-modules --display-reasons --config webpack.config.js"
   },
   "dependencies": {
     "@winnnntttter/hello-wasm": "^0.1.0"
