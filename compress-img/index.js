@@ -22,7 +22,7 @@ async function loadImage(file) {
     return ctx.getImageData(0, 0, img.width, img.height);
 }
 
-async function compressIMG(file) {
+export default async function compressIMG(file) {
     const module = await imagequant();
 
     console.log('Version:', module.version().toString(16));

@@ -10,8 +10,9 @@
         <div>
             <img id="preview" src="" alt="" />
         </div>
-        <script src="./js/app.app.js"></script>
-        <script>
+        <!-- <script src="./index.js" type="module"></script> -->
+        <script type="module">
+            import compressIMG from './index.js';
             const fileInput = document.getElementById('file-input');
             fileInput.addEventListener('change', e => {
                 const file = e.target.files[0];
