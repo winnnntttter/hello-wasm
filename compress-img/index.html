@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>hello-wasm example</title>
+    </head>
+    <body>
+        <form action="/upload">
+            <input type="file" id="file-input" />
+        </form>
+        <div>
+            <img id="preview" src="" alt="" />
+        </div>
+        <script src="./js/app.app.js"></script>
+        <script>
+            const fileInput = document.getElementById('file-input');
+            fileInput.addEventListener('change', e => {
+                const file = e.target.files[0];
+                if (!file) {
+                    return;
+                }
+                compressIMG(file);
+            });
+        </script>
+    </body>
+</html>
