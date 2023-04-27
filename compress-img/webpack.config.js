@@ -7,6 +7,14 @@ module.exports = {
     path: path.resolve(__dirname, "./"),
     filename: "js/app.[name].js",
   },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        loader: require.resolve('@open-wc/webpack-import-meta-loader'),
+      },
+    ],
+  },
   // mode: "development"
   mode: "production"
 };

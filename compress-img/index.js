@@ -1,4 +1,5 @@
-const imagequant = import('./imagequant/imagequant.js');
+// const Module = import('./imagequant/imagequant.js');
+import imagequant from './imagequant/imagequant.js';
 async function loadImage(file) {
     // create a new FileReader object
     const reader = new FileReader();

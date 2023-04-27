@@ -1,7 +1,7 @@
 
 var Module = (function() {
   var _scriptDir = import.meta.url;
-  
+
   return (
 function(Module) {
   Module = Module || {};
