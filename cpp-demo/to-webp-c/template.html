@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Emscripten-Generated Code</title>
+    </head>
+    <body>
+        <button class="mybutton">运行我的函数</button>
+        <script type="text/javascript">
+            document.querySelector('.mybutton').addEventListener('click', function () {
+                alert('检查控制台');
+                var result = Module.ccall(
+                    'version', // name of C function
+                    null, // return type
+                    null, // argument types
+                    null
+                ); // arguments
+                console.log('result: ' + result);
+            });
+
+            var Module = {
+                print: (function () {
+                    return function (text) {
+                      console.log(text);
+                    };
+                })(),
+            };
+        </script>
+        {{{ SCRIPT }}}
+    </body>
+</html>
