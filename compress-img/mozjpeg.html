@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>hello-wasm example</title>
+    </head>
+    <body>
+        <form action="/upload">
+            <input type="file" id="file-input" />
+        </form>
+        <div>
+            <img id="preview" src="" alt="" />
+        </div>
+        <!-- <script src="./index.js"></script> -->
+        <script type="module">
+            import mozjpeg_enc from './mozjpeg/enc/mozjpeg_enc.js';
+            import { initEmscriptenModule } from './worker-utils/index.js';
+            let emscriptenModule;
+            async function encode(data, options) {
+                if (!emscriptenModule) {
+                    emscriptenModule = initEmscriptenModule(mozjpeg_enc);
+                }
+
+                const module = await emscriptenModule;
+                const resultView = module.encode(data.data, data.width, data.height, options);
+                // wasm can’t run on SharedArrayBuffers, so we hard-cast to ArrayBuffer.
+                return resultView.buffer;
+            }
+
+            const fileInput = document.getElementById('file-input');
+            fileInput.addEventListener('change', async e => {
+                const file = e.target.files[0];
+                if (!file) {
+                    return;
+                }
+                // file 转imageData
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                await new Promise(resolve => (reader.onload = resolve));
+                const img = new Image();
+                img.src = reader.result;
+                await new Promise(resolve => (img.onload = resolve));
+                const canvas = document.createElement('canvas');
+                [canvas.width, canvas.height] = [img.width, img.height];
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+                const data = ctx.getImageData(0, 0, img.width, img.height);
+
+                var result = await encode(data, { quality: 75, color_space: 3, auto_subsample: true, chroma_subsample: 2, separate_chroma_quality: false, chroma_quality: 75, baseline: false, progressive: true, optimize_coding: false, smoothing: 0, quant_table: 3, trellis_multipass: false, trellis_opt_zero: false, trellis_opt_table: false, trellis_loops: 1, arithmetic: false });
+                console.log(result);
+
+                // ArrayBuffer 转 blob
+                const blob = new Blob([result], { type: 'image/jpeg' });
+                const url = URL.createObjectURL(blob);
+                document.getElementById('preview').src = url;
+            });
+        </script>
+    </body>
+</html>
