@@ -98,10 +98,21 @@
         <hr />
         <textarea class="emscripten" id="output" rows="8"></textarea>
         <hr />
+        <button class="mybutton">运行我的函数</button>
         <script type="text/javascript">
             var statusElement = document.getElementById('status');
             var progressElement = document.getElementById('progress');
             var spinnerElement = document.getElementById('spinner');
+            document.querySelector('.mybutton').addEventListener('click', function () {
+                alert('检查控制台');
+                var result = Module.ccall(
+                    'myFunction', // name of C function
+                    null, // return type
+                    null, // argument types
+                    null
+                ); // arguments
+                console.log('result: ' + result);
+            });
 
             var Module = {
                 preRun: [],
